@@ -1,35 +1,123 @@
-<!doctype html>
-<html lang="en">
-
+<!DOCTYPE html>
+<html>
   <head>
     <meta charset="utf-8">
-    <title>Pembroke Welsh Corgis</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
+    <title>How The Internet Works</title>
 
+    <link rel="stylesheet" href="css/normalize.css">
+    <link href="http://fonts.googleapis.com/css?family=Nunito:400,300" rel="stylesheet" type="text/css">
+    <script src="mejs/jquery.js"></script>
+    <script src="mejs/mediaelement-and-player.js"></script>
+    <link rel="stylesheet" href="mejs/mediaelementplayer.min.css"/>
+
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="mejs/mejs-skins.css">
   </head>
-
   <body>
 
-    <div id="container">
+    <h1>How The Internet Works</h1>
 
-      <header>
+    <div class="wrapper">
 
-        <nav>
+      <video id="myVideo" class="" controls width="840px">
+        <source src="video/video.mp4" type="video/mp4">
+        <source src="video/video.ogg" type="video/ogg">
+        <track label="English" kind="subtitles" srclang="en" src="video/captions.vtt" default>
+      </video>
 
-        </nav>
+      <p>
+        <span id="first">Now that we've looked at the architecture of the internet, let's see how you connect your personal devices the internet inside your house.</span>
+        <span id="second">Well there are many ways connect to the internet, most often people connect wirelessly.</span>
+        <span id="third">Let's look at an example of you can connect to the internet.</span>
+      </p>
+      <p>
+        <span id="fourth">If you live in a city or a town, you probably have a coaxial cable cable Internet or a phone line if have DSL, running to the outside your house, that connects you the Internet Service Provider, or ISP.</span>
+      </p>
+      <p>
+        <span id="fifth">If you live far out in the country, you'll more likely have a dish outside your house, connecting you wirelessly to your closest ISP, or you might also use the telephone system.</span>
+        <span id="sixth">Whether a wire comes straight the ISP hookup outside your house, it travels over waves from your roof the first stop a wire will make inside your house, is at your modem.</span>
+      </p>
+      <p>
+        <span id="seventh">A modem is what connects the internet
+        to your network at home.</span>
+        <span id="eighth">A few common residential modems are DSL or</span>
+      </p>
+
+    </div>
+
+    <script>
+
+      $('audio, video').mediaelementplayer({
+        success: function(player, node) {
+          $('#' + node.id + '-mode').html('mode: ' + player.pluginType);
+        },
+        startLanguage: 'en',
+        translationSelector: true
+      });
 
 
-      </header>
+      var vid = document.getElementById("myVideo");
+      var first = document.getElementById("first");
+      var second = document.getElementById("second");
+      var third = document.getElementById("third");
+      var fourth = document.getElementById("fourth");
+      var fifth = document.getElementById("fifth");
+      var sixth = document.getElementById("sixth");
+      var seventh = document.getElementById("seventh");
+      var eighth = document.getElementById("eighth");
 
-      <main>
-        
-      </main>
+      vid.ontimeupdate = function() {
+        if (vid.currentTime < 7.535) {
+          first.style.color = "red";
+        } else if (vid.currentTime > 7.535 && vid.currentTime < 13.960) {
+          first.style.color = "black";
+          second.style.color = "red";
+        } else if (vid.currentTime > 13.960 && vid.currentTime < 17.940) {
+          first.style.color = "black";
+          second.style.color = "black";
+          third.style.color = "red";
+        } else if (vid.currentTime > 17.940 && vid.currentTime < 30.920) {
+          first.style.color = "black";
+          second.style.color = "black";
+          third.style.color = "black";
+          fourth.style.color = "red";
+        } else if (vid.currentTime > 30.920 && vid.currentTime < 41.190) {
+          first.style.color = "black";
+          second.style.color = "black";
+          third.style.color = "black";
+          fourth.style.color = "black";
+          fifth.style.color = "red";
+        } else if (vid.currentTime > 41.190 && vid.currentTime < 53.760) {
+          first.style.color = "black";
+          second.style.color = "black";
+          third.style.color = "black";
+          fourth.style.color = "black";
+          fifth.style.color = "black";
+          sixth.style.color = "red";
+        } else if (vid.currentTime > 53.760 && vid.currentTime < 57.760) {
+          first.style.color = "black";
+          second.style.color = "black";
+          third.style.color = "black";
+          fourth.style.color = "black";
+          fifth.style.color = "black";
+          sixth.style.color = "black";
+          seventh.style.color = "red";
+        } else if (vid.currentTime > 57.760) {
+          first.style.color = "black";
+          second.style.color = "black";
+          third.style.color = "black";
+          fourth.style.color = "black";
+          fifth.style.color = "black";
+          sixth.style.color = "black";
+          seventh.style.color = "black";
+          eighth.style.color = "red";
+        }
+      };
+      
 
-      <footer>
-        Site by Corgi Fan, 2015.
-      </footer>
+    </script>
 
-    </div> <!-- container -->
+
   </body>
 </html>
