@@ -1,0 +1,47 @@
+.mejs-rc .mejs-controls {
+  background: #635c5e;
+  height: 30px;
+}
+
+.mejs-rc .mejs-controls .mejs-button button {
+outline: none;
+}
+
+.mejs-rc .mejs-controls .mejs-captions-button {
+  margin: 0 7px;
+}
+
+.mejs-rc .mejs-controls .mejs-captions-selector {
+  background: transparent;
+  width: 100px;
+  right: auto;
+}
+
+.mejs-rc .mejs-controls .mejs-time-rail {
+  padding: 0;
+}
+
+.mejs-rc .mejs-controls .mejs-time-rail span {
+  height: 100%;
+  border-radius: 0px;
+}
+
+.mejs-rc .mejs-controls .mejs-time-rail .mejs-time-total,
+.mejs-rc .mejs-controls .mejs-time-rail .mejs-time-loaded,
+.mejs-rc .mejs-controls .mejs-time-rail .mejs-time-buffering,
+.mejs-rc .mejs-controls .mejs-time-rail .mejs-time-handle {
+  background: rgb(184, 204, 177);
+  margin: 0;
+}
+
+.mejs-rc .mejs-controls .mejs-time-rail .mejs-time-current {
+  background: #635c5e;
+  border-right: solid white .5px;
+}
+
+.mejs-container .mejs-controls .mejs-time-rail .mejs-time-total .mejs-time-float {
+  border: none;
+  color: red;
+  background: transparent;
+  text-shadow: 0px 1px 1px white;
+}
