@@ -17,37 +17,26 @@ var video = $('#myVideo'); //jQuery video elemnt
 $('#play-pause').on('click', function() {
     if(video[0].paused) {
         video[0].play(); //Change to pause button
-        $('#play-pause').text('Pause');
+        $('#play-pause').css('background-image', 'url(icons/pause-icon.png)');
     }
     else {
         video[0].pause(); //Change to play button
-        $('#play-pause').text('Play');
+        $('#play-pause').css('background-image', 'url(icons/play-icon.png)');
     }
     return false;
 });
-
-// Add additional play/pause functionality press space bar and click
-
-
-
-
-
-
-
-
-
 
 // Mute button click to mute
 $('#mute').on('click', function (){
   if ($("video").prop('muted')) {
     $("video").prop('muted', false); //mute
-    $('#mute').text('Mute');
+    $('#mute').css('background-image', 'url(icons/volume-on-icon.png)');
     volumeBar.value = currentVolume;
   }
   else {
     currentVolume = volumeBar.value;
     $("video").prop('muted', true);
-    $('#mute').text('Unmute');
+    $('#mute').css('background-image', 'url(icons/volume-off-icon.png)');
     volumeBar.value = 0;
   }
 });
@@ -69,36 +58,20 @@ fullscreen.addEventListener('click', function(){
 
 // Video playback speed
 
-
-
-
-
-
-// Hide/unhide controls
-
-$('speed-btn').on('click', function(){
-  //  show speed buttons
+$('#play-speed-container').mouseenter(function () {
+  $('.speed').removeClass('hide');
 });
-
-$('speed-btn').on('hoveroff', function(){
-  if (speed20.hide = false) {
-    // then hide buttons
-  }
-});
-
-
-
-
-
-
-
 
 
 //2.0 control
 speed20 = document.getElementById('speed20');
 speed20.addEventListener('click', function() {
     vid.playbackRate = 2;
-    //Change class to checked
+    $('#speed20').addClass('checked');
+    $('.speed').addClass('hide');
+    $('#speed05').removeClass('checked');
+    $('#speed10').removeClass('checked');
+    $('#speed15').removeClass('checked');
     return false;
 });
 
@@ -106,6 +79,11 @@ speed20.addEventListener('click', function() {
 speed15 = document.getElementById('speed15');
 speed15.addEventListener('click', function() {
     vid.playbackRate = 1.5;
+    $('#speed15').addClass('checked');
+    $('.speed').addClass('hide');
+    $('#speed05').removeClass('checked');
+    $('#speed10').removeClass('checked');
+    $('#speed20').removeClass('checked');
     return false;
 });
 
@@ -113,6 +91,11 @@ speed15.addEventListener('click', function() {
 speed10 = document.getElementById('speed10');
 speed10.addEventListener('click', function() {
     vid.playbackRate = 1;
+    $('#speed10').addClass('checked');
+    $('.speed').addClass('hide');
+    $('#speed05').removeClass('checked');
+    $('#speed20').removeClass('checked');
+    $('#speed15').removeClass('checked');
     return false;
 });
 
@@ -120,8 +103,80 @@ speed10.addEventListener('click', function() {
 speed05 = document.getElementById('speed05');
 speed05.addEventListener('click', function() {
     vid.playbackRate = 0.5;
+    $('#speed05').addClass('checked');
+    $('.speed').addClass('hide');
+    $('#speed20').removeClass('checked');
+    $('#speed10').removeClass('checked');
+    $('#speed15').removeClass('checked');
     return false;
 });
+
+// Add subtitles
+
+var videoContainer = document.getElementById('video-container');
+var subtitles = document.getElementById('captions-container');
+
+
+for (var i = 0; i < vid.textTracks.length; i++) {
+   vid.textTracks[i].mode = 'hidden';
+}
+
+var subtitlesMenu;
+if (video.textTracks) {
+   var df = document.createDocumentFragment();
+   var subtitlesMenu = df.appendChild(document.createElement('ul'));
+   subtitlesMenu.className = 'subtitles-menu';
+   subtitlesMenu.appendChild(createMenuItem('subtitles-off', '', 'Off'));
+   for (var i = 0; i < vid.textTracks.length; i++) {
+      subtitlesMenu.appendChild(createMenuItem('subtitles-' + video.textTracks[i].language, vid.textTracks[i].language, vid.textTracks[i].label));
+   }
+   videoContainer.appendChild(subtitlesMenu);
+}
+
+
+var captionMenuButtons = [];
+var createMenuItem = function(id, lang, label) {
+   var listItem = document.createElement('li');
+   var button = listItem.appendChild(document.createElement('button'));
+   button.setAttribute('id', id);
+   button.className = 'subtitles-button';
+   if (lang.length > 0) button.setAttribute('lang', lang);
+   button.value = label;
+   button.setAttribute('data-state', 'inactive');
+   button.appendChild(document.createTextNode(label));
+   button.addEventListener('click', function(e) {
+      // Set all buttons to inactive
+      subtitleMenuButtons.map(function(v, i, a) {
+         subtitleMenuButtons[i].setAttribute('data-state', 'inactive');
+      });
+      // Find the language to activate
+      var lang = this.getAttribute('lang');
+      for (var i = 0; i < video.textTracks.length; i++) {
+         // For the 'subtitles-off' button, the first condition will never match so all will subtitles be turned off
+         if (video.textTracks[i].language == lang) {
+            video.textTracks[i].mode = 'showing';
+            this.setAttribute('data-state', 'active');
+         }
+         else {
+            video.textTracks[i].mode = 'hidden';
+         }
+      }
+      subtitlesMenu.style.display = 'none';
+   });
+   subtitleMenuButtons.push(button);
+   return listItem;
+};
+
+subtitles.addEventListener('click', function(e) {
+   if (subtitlesMenu) {
+      subtitlesMenu.style.display = (subtitlesMenu.style.display == 'block' ? 'none' : 'block');
+   }
+});
+
+
+
+
+
 
 // Update time progress of video
 
@@ -325,4 +380,46 @@ eighth.addEventListener('click', function() {
     vid.currentTime = 57.760;
 });
 
-// scrub video to that time point
+// HIDE VIDEO CONTROLS ON hover
+
+$('#video-controls').hover(function(){
+  $('#play-pause').toggleClass('hide');
+  $('#mute').toggleClass('hide');
+  $('#volume-bar').toggleClass('hide');
+  $('.progressTime').toggleClass('hide');
+  $('#captions-container').toggleClass('hide');
+  $('#play-speed-container').toggleClass('hide');
+  $('#full-screen').toggleClass('hide');
+});
+
+video.hover(function(){
+  $('#play-pause').toggleClass('hide');
+  $('#mute').toggleClass('hide');
+  $('#volume-bar').toggleClass('hide');
+  $('.progressTime').toggleClass('hide');
+  $('#captions-container').toggleClass('hide');
+  $('#play-speed-container').toggleClass('hide');
+  $('#full-screen').toggleClass('hide');
+});
+
+
+// ADD CONTROLS TO VIDEO AT SMALLER SIZES
+
+$(document).ready(function() {
+    // run test on initial page load
+    checkSize();
+
+    // run test on resize of the window
+    $(window).resize(checkSize);
+});
+
+//Function to the css rule
+function checkSize(){
+    if ($(".progressBar").css("top") !== "-65px" ){
+        $('#video-controls').hide();
+        video.prop("controls",true);
+    } else {
+      $('#video-controls').show();
+      video.prop("controls",false);
+    }
+}
