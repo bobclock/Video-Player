@@ -1,3 +1,5 @@
+$(document).ready(function() {
+
 // CHECK jQUERY IS LOADED
 
 if (window.jQuery) {
@@ -192,7 +194,7 @@ video.on('timeupdate', function() {
 
 var seekBar = document.getElementById("seek-bar");
 var volumeBar = document.getElementById("volume-bar");
-var bufferBar = document.getElementById("buffer-bar")
+var bufferBar = document.getElementById("buffer-bar");
 
 // Create seekBar
 
@@ -427,13 +429,13 @@ $('#video-controls').mouseleave(function(){
 
 // ADD CONTROLS TO VIDEO AT SMALLER SIZES
 
-$(document).ready(function() {
+
     // run test on initial page load
     checkSize();
 
     // run test on resize of the window
     $(window).resize(checkSize);
-});
+
 
 //Function to the css rule
 function checkSize(){
@@ -445,3 +447,5 @@ function checkSize(){
       video.prop("controls",false);
     }
 }
+
+});
