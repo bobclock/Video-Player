@@ -113,68 +113,58 @@ speed05.addEventListener('click', function() {
 
 // Add subtitles
 
-var videoContainer = document.getElementById('video-container');
-var subtitles = document.getElementById('captions-container');
+// Show on off buttons
 
-
-for (var i = 0; i < vid.textTracks.length; i++) {
-   vid.textTracks[i].mode = 'hidden';
-}
-
-var subtitlesMenu;
-if (video.textTracks) {
-   var df = document.createDocumentFragment();
-   var subtitlesMenu = df.appendChild(document.createElement('ul'));
-   subtitlesMenu.className = 'subtitles-menu';
-   subtitlesMenu.appendChild(createMenuItem('subtitles-off', '', 'Off'));
-   for (var i = 0; i < vid.textTracks.length; i++) {
-      subtitlesMenu.appendChild(createMenuItem('subtitles-' + video.textTracks[i].language, vid.textTracks[i].language, vid.textTracks[i].label));
-   }
-   videoContainer.appendChild(subtitlesMenu);
-}
-
-
-var captionMenuButtons = [];
-var createMenuItem = function(id, lang, label) {
-   var listItem = document.createElement('li');
-   var button = listItem.appendChild(document.createElement('button'));
-   button.setAttribute('id', id);
-   button.className = 'subtitles-button';
-   if (lang.length > 0) button.setAttribute('lang', lang);
-   button.value = label;
-   button.setAttribute('data-state', 'inactive');
-   button.appendChild(document.createTextNode(label));
-   button.addEventListener('click', function(e) {
-      // Set all buttons to inactive
-      subtitleMenuButtons.map(function(v, i, a) {
-         subtitleMenuButtons[i].setAttribute('data-state', 'inactive');
-      });
-      // Find the language to activate
-      var lang = this.getAttribute('lang');
-      for (var i = 0; i < video.textTracks.length; i++) {
-         // For the 'subtitles-off' button, the first condition will never match so all will subtitles be turned off
-         if (video.textTracks[i].language == lang) {
-            video.textTracks[i].mode = 'showing';
-            this.setAttribute('data-state', 'active');
-         }
-         else {
-            video.textTracks[i].mode = 'hidden';
-         }
-      }
-      subtitlesMenu.style.display = 'none';
-   });
-   subtitleMenuButtons.push(button);
-   return listItem;
-};
-
-subtitles.addEventListener('click', function(e) {
-   if (subtitlesMenu) {
-      subtitlesMenu.style.display = (subtitlesMenu.style.display == 'block' ? 'none' : 'block');
-   }
+$('#captions-container').mouseenter(function () {
+  $('.captions').removeClass('hide');
 });
 
+(function() {
+	var captionsOn = document.getElementById("captions-on"),
+      captionsOff = document.getElementById("captions-off"),
+		  i,
+		  track,
+		hideTracks = function() {
+			// Oddly, there's no way to remove a track from a video, so hide them instead
+			for (i = 0; i < vid.textTracks.length; i++) {
+				vid.textTracks[i].mode = "hidden";
+			}
+		};
+
+	captionsOn.addEventListener("click", function() {
+    $('#captions-on').addClass('checked');
+    $('#captions-off').removeClass('checked');
+    $('.captions').addClass('hide');
+    hideTracks();
+		track = vid.addTextTrack("captions", "English", "en");
+		track.mode = "showing";
+		track.addCue(new VTTCue(0, 4.13, "Now that we've looked at the architecture of the internet, let's see how you might"));
+		track.addCue(new VTTCue(4.13, 7.535, "connect your personal devices to the internet inside your house."));
+		track.addCue(new VTTCue(7.535, 11.27, "Well there are many ways to connect to the internet, and"));
+		track.addCue(new VTTCue(11.27, 13.96, "most often people connect wirelessly."));
+		track.addCue(new VTTCue(13.96, 17.94, "Let's look at an example of how you can connect to the internet"));
+		track.addCue(new VTTCue(17.94, 22.37, "If you live in a city or a town, you probably have a coaxial cable for"));
+		track.addCue(new VTTCue(22.37, 26.88, "cable Internet, or a phone line if you have DSL, running to the outside of"));
+		track.addCue(new VTTCue(26.88, 30.92, "your house, that connects you to the Internet Service Provider, or ISP."));
+		track.addCue(new VTTCue(30.92, 32.1, "I'm searching for someone."));
+		track.addCue(new VTTCue(32.1, 34.73, "If you live far out in the country, you'll more likely have"));
+		track.addCue(new VTTCue(34.73, 39.43, "a dish outside your house, connecting you wirelessly to your closest ISP, or"));
+		track.addCue(new VTTCue(39.43, 41.19, "you might also use the telephone system."));
+		track.addCue(new VTTCue(41.19, 46.3, "Whether a wire comes straight from the ISP hookup outside your house, or"));
+		track.addCue(new VTTCue(46.3, 49.27, "it travels over radio waves from your roof,"));
+    track.addCue(new VTTCue(49.27, 53.76, "the first stop a wire will make once inside your house, is at your modem."));
+    track.addCue(new VTTCue(53.76, 57.78, "A modem is what connects the internet to your network at home."));
+    track.addCue(new VTTCue(57.78, 60.15, "A few common residential modems are DSL or"));
+	});
+  captionsOff.addEventListener("click", function() {
+    $('#captions-off').addClass('checked');
+    $('#captions-on').removeClass('checked');
+    $('.captions').addClass('hide');
+    hideTracks();
+  });
 
 
+}());
 
 
 
@@ -223,14 +213,27 @@ vid.addEventListener("timeupdate", function() {
 });
 
 // Pause the video when the slider handle is being dragged
-seekBar.addEventListener("mousedown", function() {
-  vid.pause();
+// seekBar.addEventListener("mousedown", function() {
+//   vid.pause();
+// });
+//
+// // Play the video when the slider handle is dropped
+// seekBar.addEventListener("mouseup", function() {
+//   vid.play();
+// });
+
+// On progress bar click move the video
+
+seekBar.addEventListener('click', function(e) {
+   var pos = (e.pageX  - this.offsetLeft) / this.offsetWidth;
+   video.currentTime = pos * video.duration;
+   if (video[0].paused) {
+       $('#play-pause').css('background-image', 'url(icons/play-icon.png)');
+   } else {
+     $('#play-pause').css('background-image', 'url(icons/pause-icon.png)');
+   }
 });
 
-// Play the video when the slider handle is dropped
-seekBar.addEventListener("mouseup", function() {
-  vid.play();
-});
 
 
 // Create bufferBar
@@ -400,7 +403,26 @@ video.hover(function(){
   $('#captions-container').toggleClass('hide');
   $('#play-speed-container').toggleClass('hide');
   $('#full-screen').toggleClass('hide');
+
 });
+
+video.mouseenter(function(){
+  $('.progressBar').css('top', '-65px');
+});
+
+video.mouseleave(function(){
+  $('.progressBar').css('top', '-10px');
+});
+
+$('#video-controls').mouseenter(function(){
+  $('.progressBar').css('top', '-65px');
+});
+
+$('#video-controls').mouseleave(function(){
+  $('.progressBar').css('top', '-10px');
+});
+
+
 
 
 // ADD CONTROLS TO VIDEO AT SMALLER SIZES

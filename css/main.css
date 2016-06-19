@@ -20,7 +20,7 @@ h1 {
   color: red;
   margin: 30px 0;
   text-align: center;
-  background-color: #666666;
+  background-color: rgb(175, 7, 50);
       -webkit-background-clip: text;
       -moz-background-clip: text;
       background-clip: text;
@@ -45,9 +45,20 @@ p {
   padding-bottom: 20px;
 }
 
+
 p span:hover {
   color: orange !important;
   cursor: pointer;
+}
+
+button {
+  color: rgba(56, 64, 71, 0.25);
+  background-color: white;
+  border: none;
+}
+
+.checked {
+  color: #384047;
 }
 
 
@@ -60,6 +71,7 @@ p span:hover {
   #video-controls {
     position: absolute;
     width: 75%;
+    height: 1px;
   }
 
   /*Progress and buffer bar*/
@@ -322,6 +334,10 @@ p span:hover {
     background: url(../icons/cc-icon.png) no-repeat center center;
   }
 
+  .captions {
+    width: 45px;
+  }
+
   #captions-container:hover, #play-speed-container:hover {
     cursor: pointer;
   }
@@ -337,9 +353,7 @@ p span:hover {
     background: url(../icons/play-speed-icon.png) no-repeat center center;
   }
 
-  .checked {
-    border: solid red 2px;
-  }
+
 
   /*Full Screen controls*/
 
